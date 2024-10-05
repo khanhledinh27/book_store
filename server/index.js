@@ -11,7 +11,7 @@ const Book = require('./models/Book');
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: ['https://natasa-store.onrender.com','http://localhost:3000'],
+  origin: ['https://natasa-store.onrender.com','https://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
@@ -58,5 +58,5 @@ app.get('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on https://localhost:${PORT}`);
 });
