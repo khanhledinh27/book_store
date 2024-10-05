@@ -10,11 +10,11 @@ const PORT = process.env.PORT || 5000;
 const Book = require('./models/Book');
 
 // Enable CORS for all routes
-app.use(cors({
-  origin: ['https://natasa-store.onrender.com','http://localhost:3000'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
+app.use(cors());
 
+app.listen(5000, () => {
+    console.log('Server is running on port 5000');
+});
 
 // Middleware
 app.use(express.json()); 
