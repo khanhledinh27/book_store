@@ -19,7 +19,7 @@ const Book = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await fetch('http://localhost:5000/books');
+                const response = await fetch('https://localhost:5000/books');
                 if (!response.ok) {
                     throw new Error('Failed to fetch books');
                 }
