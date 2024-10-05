@@ -11,7 +11,7 @@ const Book = require('./models/Book');
 
 // Enable CORS for all routes
 app.use(cors({
-  origin: ['https://natasa-store.onrender.com','https://localhost:3000'],
+  origin: ['https://natasa-store.onrender.com','http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 
