@@ -1,34 +1,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 require('dotenv').config();
+const path = require('path'); // Add this for serving static files
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 const Book = require('./models/Book');
 
-const cors = require('cors');
-app.use(cors()); // Enable CORS for all routes
+// Enable CORS for all routes
+app.use(cors()); 
 
 // Middleware
-app.use(express.json()); // For parsing application/json
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use(express.json()); 
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('MongoDB connected');
-  })
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-  });
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
+// API routes
 app.post('/books', async (req, res) => {
   const { tensp, imgURL, gia, mota } = req.body;
   const newBook = new Book({ tensp, imgURL, gia, mota });
@@ -41,19 +36,22 @@ app.post('/books', async (req, res) => {
   }
 });
 
-// Get all books
 app.get('/books', async (req, res) => {
-    try {
-      const books = await Book.find(); // Fetch all books from the database
-      res.json(books); // Send the books as a response
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  });
-  
-// Use the books routes
-const booksRouter = require('./routes/books');
-app.use('/books', booksRouter); // Use the books route under /books endpoint
+  try {
+    const books = await Book.find();
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// All other GET requests will return the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 // Start server
 app.listen(PORT, () => {
