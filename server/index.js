@@ -20,7 +20,7 @@ app.use(cors({
 app.use(express.json()); 
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/book_store');
+mongoose.connect('mongodb+srv://khanhledinhwork:KlCmNoeJXxEq3G4q@cluster0.dc6rc.mongodb.net/book_store?retryWrites=true&w=majority');
 
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
