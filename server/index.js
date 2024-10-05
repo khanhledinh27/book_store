@@ -10,7 +10,11 @@ const PORT = process.env.PORT || 5000;
 const Book = require('./models/Book');
 
 // Enable CORS for all routes
-app.use(cors()); 
+app.use(cors({
+  origin: ['https://natasa-store.onrender.com','http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 
 // Middleware
 app.use(express.json()); 
@@ -18,6 +22,7 @@ app.use(express.json());
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
@@ -46,6 +51,7 @@ app.get('/books', async (req, res) => {
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../client/build')));
+
 
 // All other GET requests will return the React app
 app.get('*', (req, res) => {
