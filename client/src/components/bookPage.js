@@ -31,25 +31,25 @@ const BookModal = ({ book, onClose }) => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-6 rounded-lg shadow-lg">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 p-4 sm:p-8">
+            <div className="max-w-full w-full sm:w-auto sm:max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-lg h-auto sm:h-auto">
                 <div className="flex flex-col md:flex-row -mx-4">
                     <div className="md:flex-1 px-4">
-                        <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
+                        <div className="h-[300px] sm:h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
                             <img className="w-full h-full object-cover" src={book.imgURL} alt={book.tensp} />
                         </div>
                     </div>
                     <div className="md:flex-1 px-4 mt-8">
-                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{book.tensp}</h2>
-                        <p className="text-gray-400 dark:text-gray-300 text-sm mb-4">{book.tacgia}</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-white mb-2">{book.tensp}</h2>
+                        <p className="text-gray-400 dark:text-gray-300 text-sm sm:text-base mb-4">{book.tacgia}</p>
                         <div>
                             <span className="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>
-                            <p className="text-gray-600 dark:text-gray-300 text-xl mt-2">{book.mota}</p>
+                            <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-xl mt-2">{book.mota}</p>
                         </div>
-                        <div className="flex my-10 mt-16 justify-center">
+                        <div className="flex my-6 sm:my-10 mt-8 justify-center">
                             <div className="py-2 px-3 mr-4 inline-block">
                                 <span className="mr-2 font-bold text-gray-700 dark:text-gray-300">Price:</span>
-                                <span className="text-gray-600 text-xl dark:text-gray-300">${book.gia}</span>
+                                <span className="text-gray-600 text-lg sm:text-xl dark:text-gray-300">${book.gia}</span>
                             </div>
                             <div className="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700">
                                 <div className="flex items-center gap-x-1.5">
@@ -70,7 +70,7 @@ const BookModal = ({ book, onClose }) => {
                                         type="number"
                                         aria-roledescription="Number field"
                                         value={quantity}
-                                        onChange={handleQuantityChange} // Added onChange handler to make the field editable
+                                        onChange={handleQuantityChange}
                                     />
                                     <button
                                         type="button"
@@ -101,6 +101,7 @@ const BookModal = ({ book, onClose }) => {
                 </div>
             </div>
         </div>
+
     );
 };
 
