@@ -1,66 +1,102 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const BookModal = ({ book, onClose }) => {
+    const [quantity, setQuantity] = useState(1); // Default quantity to 1
+
+    // Reset quantity when a new book is selected
+    useEffect(() => {
+        if (book) {
+            setQuantity(1); // Reset quantity to 1 when the book changes
+        }
+    }, [book]);
+
     if (!book) return null;
+
+    // Handle change from input field
+    const handleQuantityChange = (e) => {
+        const value = parseInt(e.target.value, 10);
+        if (!isNaN(value) && value >= 0) { // Ensure valid and non-negative values
+            setQuantity(value);
+        }
+    };
+
+    // Handle increase quantity
+    const incrementQuantity = () => {
+        setQuantity((prevQuantity) => prevQuantity + 1);
+    };
+
+    // Handle decrease quantity
+    const decrementQuantity = () => {
+        setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // Prevent negative quantity
+    };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full">
-                <div className='flex justify-end items-center mt-4'>
-                    <button onClick={onClose} className="mt-4 bg-red-600 text-white p-2 rounded md:w-1/12 w-10 hover:bg-red-800 transition text-center">
-                        X
-                    </button>
-                </div>
-
-                <h2 className="text-center text-2xl font-bold mb-4">Book Details</h2>
-                <div className="flex flex-col md:flex-row">
-                    <div className="flex-shrink-0 md:flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                        <img
-                            src={book.imgURL}
-                            className="md:h-48 md:w-48 h-full w-full object-cover rounded-lg"
-                            alt={book.tensp}
-                        />
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 bg-white p-6 rounded-lg shadow-lg">
+                <div className="flex flex-col md:flex-row -mx-4">
+                    <div className="md:flex-1 px-4">
+                        <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
+                            <img className="w-full h-full object-cover" src={book.imgURL} alt={book.tensp} />
+                        </div>
                     </div>
-                    <div className="flex-grow">
-                        <table className="table-auto w-full">
-                            <tbody>
-                                <tr className="py-4 text-left">
-                                    <td className="font-semibold pr-4">Name:</td>
-                                    <td>{book.tensp}</td>
-                                </tr>
-                                <tr className="py-4 text-left">
-                                    <td className="font-semibold pr-4">Author:</td>
-                                    <td>{book.tacgia}</td>
-                                </tr>
-                                <tr className="py-4 text-left">
-                                    <td className="font-semibold pr-4">Description:</td>
-                                    <td>{book.mota}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-               
-
-                 <div className="flex items-center justify-end my-6 row-auto">
-                    <p className="text-2xl font-semibold text-black">${book.gia}</p>
-                    <div className="ml-2">
-                        <a href="#home" aria-label="Add to cart">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="currentColor"
-                                className="bi bi-bag-plus"
-                                viewBox="0 0 16 16"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5z"
-                                />
-                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
-                            </svg>
-                        </a>
+                    <div className="md:flex-1 px-4 mt-8">
+                        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">{book.tensp}</h2>
+                        <p className="text-gray-400 dark:text-gray-300 text-sm mb-4">{book.tacgia}</p>
+                        <div>
+                            <span className="font-bold text-gray-700 dark:text-gray-300">Product Description:</span>
+                            <p className="text-gray-600 dark:text-gray-300 text-xl mt-2">{book.mota}</p>
+                        </div>
+                        <div className="flex my-10 mt-16 justify-center">
+                            <div className="py-2 px-3 mr-4 inline-block">
+                                <span className="mr-2 font-bold text-gray-700 dark:text-gray-300">Price:</span>
+                                <span className="text-gray-600 text-xl dark:text-gray-300">${book.gia}</span>
+                            </div>
+                            <div className="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700">
+                                <div className="flex items-center gap-x-1.5">
+                                    <button
+                                        type="button"
+                                        className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                                        tabIndex="-1"
+                                        aria-label="Decrease"
+                                        onClick={decrementQuantity}
+                                    >
+                                        <svg className="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path clipRule="evenodd" d="M5 12h14"></path>
+                                        </svg>
+                                    </button>
+                                    <input
+                                        className="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 dark:text-white"
+                                        style={{ MozAppearance: 'textfield' }}
+                                        type="number"
+                                        aria-roledescription="Number field"
+                                        value={quantity}
+                                        onChange={handleQuantityChange} // Added onChange handler to make the field editable
+                                    />
+                                    <button
+                                        type="button"
+                                        className="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+                                        tabIndex="-1"
+                                        aria-label="Increase"
+                                        onClick={incrementQuantity}
+                                    >
+                                        <svg className="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path clipRule="evenodd" d="M5 12h14"></path>
+                                            <path clipRule="evenodd" d="M12 5v14"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mb-4">
+                            <div className="flex items-center mt-2">
+                                <div className="w-1/2 px-2">
+                                    <button className="w-full bg-gray-900 dark:bg-gray-600 text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add to Cart</button>
+                                </div>
+                                <div className="w-1/2 px-2">
+                                    <button onClick={onClose} className="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
